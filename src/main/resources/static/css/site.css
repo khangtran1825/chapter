@@ -6,6 +6,20 @@
   --accent: #b44e34;
   --white: #fffef9;
 }
+.site-header {
+  gap: 20px;
+}
+nav {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+nav a {
+  max-width: 180px;
+  overflow-wrap: anywhere;
+}
+dd {
+  overflow-wrap: anywhere;
+}
 * {
   box-sizing: border-box;
 }

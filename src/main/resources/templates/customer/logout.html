@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đăng xuất')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="login panel">
+        <h1>Đăng xuất?</h1>
+        <p>
+          Giỏ sách, thông tin giao hàng đang nhập và quyền xem biên nhận của
+          phiên này sẽ bị xóa. Các thiết bị khác vẫn đăng nhập.
+        </p>
+        <form th:action="@{/logout}" method="post">
+          <button>Đăng xuất</button> <a href="/account">Ở lại</a>
+        </form>
+      </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

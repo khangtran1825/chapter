@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đăng ký tài khoản')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="login panel">
+        <p class="eyebrow">Thêm một người bạn đọc</p>
+        <h1 style="font-size: 38px">Bắt đầu chương của bạn.</h1>
+        <p class="muted">Tạo tài khoản bằng email để đăng nhập Chapter.</p>
+        <div
+          th:if="${!fieldErrors.isEmpty()}"
+          role="alert"
+          tabindex="-1"
+          class="error"
+        >
+          <span
+            th:text="${fieldErrors.containsKey('form') ? fieldErrors.get('form') : 'Vui lòng kiểm tra thông tin bên dưới.'}"
+            >Vui lòng kiểm tra thông tin bên dưới.</span
+          >
+        </div>
+        <form th:action="@{/register}" method="post">
+          <div class="field">
+            <label for="fullName">Họ và tên</label
+            ><input
+              id="fullName"
+              name="fullName"
+              th:value="${registration.fullName}"
+              autocomplete="name"
+              required
+              aria-describedby="name-error"
+            /><small
+              id="name-error"
+              class="error-text"
+              th:if="${fieldErrors.containsKey('fullName')}"
+              th:text="${fieldErrors.get('fullName')}"
+            ></small>
+          </div>
+          <div class="field">
+            <label for="email">Email</label
+            ><input
+              id="email"
+              name="email"
+              type="email"
+              th:value="${registration.email}"
+              autocomplete="email"
+              required
+              aria-describedby="email-error"
+            /><small
+              id="email-error"
+              class="error-text"
+              th:if="${fieldErrors.containsKey('email')}"
+              th:text="${fieldErrors.get('email')}"
+            ></small>
+          </div>
+          <div class="field">
+            <label for="password">Mật khẩu</label
+            ><input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              required
+              aria-describedby="password-help password-error"
+            /><small id="password-help"
+              >12–64 ký tự. Khoảng trắng được giữ nguyên.</small
+            ><small
+              id="password-error"
+              class="error-text"
+              th:if="${fieldErrors.containsKey('password')}"
+              th:text="${fieldErrors.get('password')}"
+            ></small>
+          </div>
+          <div class="field">
+            <label for="confirmPassword">Xác nhận mật khẩu</label
+            ><input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              required
+              aria-describedby="confirm-error"
+            /><small
+              id="confirm-error"
+              class="error-text"
+              th:if="${fieldErrors.containsKey('confirmPassword')}"
+              th:text="${fieldErrors.get('confirmPassword')}"
+            ></small>
+          </div>
+          <button>Tạo tài khoản</button>
+        </form>
+        <p>Đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+        <p class="muted">
+          <small
+            >Email dùng làm tên đăng nhập; bản này chưa xác minh quyền sở hữu
+            email.</small
+          >
+        </p>
+      </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

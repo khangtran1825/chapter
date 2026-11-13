@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đăng nhập')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="login panel">
+        <p class="eyebrow">Rất vui được gặp lại bạn</p>
+        <h1 style="font-size: 38px">Tiếp tục chương đang đọc.</h1>
+        <p th:if="${param.registered}" class="notice success">
+          Tạo tài khoản thành công. Bạn có thể đăng nhập.
+        </p>
+        <p th:if="${param.expired}" class="notice">
+          Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.
+        </p>
+        <p
+          th:if="${loginMessage != null and !loginMessage.isEmpty()}"
+          th:text="${loginMessage}"
+          class="notice error"
+          role="alert"
+          tabindex="-1"
+        ></p>
+        <form th:action="@{/login}" method="post">
+          <div class="field">
+            <label for="email">Email</label
+            ><input
+              id="email"
+              name="email"
+              type="email"
+              th:value="${email}"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="password">Mật khẩu</label
+            ><input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <button>Đăng nhập</button>
+        </form>
+        <p>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a></p>
+      </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

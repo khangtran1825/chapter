@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Tài khoản')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="panel">
+        <h1>Tài khoản của bạn</h1>
+        <dl>
+          <dt>Họ và tên</dt>
+          <dd th:text="${profile.fullName}"></dd>
+          <dt>Email</dt>
+          <dd th:text="${profile.email}"></dd>
+        </dl>
+        <a href="/books">Tiếp tục chọn sách</a>
+      </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

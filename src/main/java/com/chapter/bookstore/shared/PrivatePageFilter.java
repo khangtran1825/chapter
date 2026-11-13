@@ -13,7 +13,11 @@ public class PrivatePageFilter extends OncePerRequestFilter {
       HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws ServletException, IOException {
     String p = req.getRequestURI();
-    if (p.startsWith("/admin")
+    if (p.equals("/register")
+        || p.equals("/login")
+        || p.startsWith("/account")
+        || p.equals("/logout")
+        || p.startsWith("/admin")
         || p.startsWith("/orders")
         || p.startsWith("/checkout")
         || p.startsWith("/cart")) res.setHeader("Cache-Control", "no-store");

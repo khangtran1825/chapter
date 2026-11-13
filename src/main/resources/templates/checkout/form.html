@@ -4,6 +4,11 @@
   <body>
     <header th:replace="~{fragments/layout :: nav}"></header>
     <main id="main">
+      <p th:if="${!customerViewer.customer and !customerViewer.admin}">
+        Bạn có thể <a href="/login?next=checkout">đăng nhập</a> hoặc
+        <a href="/register?next=checkout">đăng ký</a>. Bạn vẫn có thể đặt sách
+        không cần tài khoản.
+      </p>
       <p class="eyebrow">Một bước nữa đến chương mới</p>
       <h1>Sách sắp đến tay bạn.</h1>
       <p><a th:href="@{/cart}">← Xem lại giỏ sách</a></p>

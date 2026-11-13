@@ -15,6 +15,7 @@ dụng. Nó đọc `.env` như dữ liệu thuần, không thực thi nội dung
 Lần đầu cần mạng để Maven Wrapper tải dependency. Không cần cài Maven toàn máy.
 
 - Cửa hàng: <http://127.0.0.1:8080/books>
+- Tạo tài khoản khách: <http://127.0.0.1:8080/register>; đăng nhập: <http://127.0.0.1:8080/login>.
 - Quản trị: <http://127.0.0.1:8080/admin/login>
 - Tài khoản/mật khẩu local: `CHAPTER_ADMIN_USERNAME` và `CHAPTER_ADMIN_PASSWORD` trong `.env`.
 - Database: `127.0.0.1:15432`; cổng mặc định 5432 bị Windows chặn trên máy đã kiểm tra.
@@ -42,13 +43,22 @@ hay ghi đè dữ liệu đã có. Tài khoản quản trị chỉ được boot
 Trạng thái đơn: PENDING → CONFIRMED → SHIPPING → COMPLETED. Có thể hủy trước SHIPPING.
 Giá/tên sách trong đơn được lưu cố định, không đổi khi sửa sản phẩm.
 
-## Sắp ra mắt: tài khoản khách hàng
+## Tài khoản khách hàng
 
 - Đăng ký bằng họ tên, email và mật khẩu.
 - Đăng nhập, xem thông tin tài khoản và đăng xuất.
 - Giữ giỏ sách khi đăng nhập trong cùng phiên trình duyệt.
 
-Trạng thái: đã có đặc tả, chưa triển khai. Đây là mục mẫu để theo dõi tính năng tiếp theo.
+Mật khẩu khách dài 12–64 ký tự Unicode, giữ nguyên khoảng trắng, lưu bằng PBKDF2 có salt.
+Email không phân biệt hoa thường; đăng ký thành công chuyển sang đăng nhập, không tự đăng nhập.
+Trang `/account` hiển thị họ tên và email của chính bạn. Khách hàng và quản trị dùng hai nguồn
+xác thực riêng. Đăng nhập sai 5 lần trong 5 phút với cùng email/địa chỉ nguồn sẽ tạm chặn 5 phút.
+
+Có thể đăng nhập cùng tài khoản trên nhiều thiết bị. Mỗi phiên có giỏ, thông tin giao hàng và
+quyền xem biên nhận riêng. Đăng xuất có bước xác nhận và xóa dữ liệu mua hàng của phiên hiện tại;
+các thiết bị khác vẫn hoạt động. Đăng nhập giữ giỏ và draft đã lưu trong cùng trình duyệt.
+Thông tin đang gõ chưa gửi ở trang thanh toán chưa được lưu tự động. Bạn vẫn mua sách không cần
+tài khoản. Chưa có xác minh email, quên mật khẩu, sửa hồ sơ, lịch sử đơn hay đồng bộ giỏ.
 
 ## Kiểm thử
 
@@ -77,6 +87,7 @@ Môi trường khác cần HTTPS và các biến `SPRING_DATASOURCE_URL`, `SPRIN
 bootstrap tối thiểu 12 ký tự và tối đa 72 byte UTF-8. Không có tài khoản production mặc định.
 
 Phiên hết hạn sau 30 phút không hoạt động; mất phiên thì mất giỏ và quyền xem xác nhận khách
-vãng lai. Hãy lưu mã đơn để liên hệ cửa hàng. MVP chạy một instance; chưa có tài khoản khách,
-email, thanh toán online, tích hợp vận chuyển, hay tra cứu đơn công khai. Cần quy định lưu/xóa
+vãng lai. Hãy lưu mã đơn để liên hệ cửa hàng. MVP chạy một instance; bộ đếm thử sai nằm trong
+bộ nhớ và được đặt lại khi khởi động. Chưa có gửi email, thanh toán online, tích hợp vận chuyển,
+hay tra cứu đơn công khai. Cần quy định lưu/xóa
 dữ liệu khách trước khi nhận đơn thật. Dự án chưa được triển khai lên hosting.

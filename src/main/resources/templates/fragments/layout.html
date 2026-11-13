@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title th:text="${title} + ' · Chapter'">Chapter</title>
     <link rel="stylesheet" th:href="@{/css/site.css}" />
+    <script defer th:src="@{/js/private-page.js}"></script>
   </head>
   <body>
     <header th:fragment="nav" class="site-header">
@@ -15,6 +16,32 @@
       <nav aria-label="Điều hướng chính">
         <a th:href="@{/books}">Khám phá sách</a
         ><a th:href="@{/cart}">Giỏ sách <span aria-hidden="true">↗</span></a>
+        <a
+          th:if="${customerViewer == null or (!customerViewer.customer and !customerViewer.admin)}"
+          th:href="@{/login}"
+          >Đăng nhập</a
+        >
+        <a
+          th:if="${customerViewer == null or (!customerViewer.customer and !customerViewer.admin)}"
+          th:href="@{/register}"
+          >Đăng ký</a
+        >
+        <a
+          th:if="${customerViewer != null and customerViewer.customer}"
+          th:href="@{/account}"
+          th:text="${customerViewer.displayName}"
+          >Tài khoản</a
+        >
+        <a
+          th:if="${customerViewer != null and customerViewer.customer}"
+          th:href="@{/logout}"
+          >Đăng xuất</a
+        >
+        <a
+          th:if="${customerViewer != null and customerViewer.admin}"
+          th:href="@{/admin/books}"
+          >Quản trị</a
+        >
       </nav>
     </header>
     <footer th:fragment="footer">
