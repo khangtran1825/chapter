@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head(title)">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${title} + ' · Chapter'">Chapter</title>
+    <link rel="stylesheet" th:href="@{/css/site.css}" />
+  </head>
+  <body>
+    <header th:fragment="nav" class="site-header">
+      <a class="skip" href="#main">Đến nội dung</a
+      ><a class="brand" th:href="@{/books}"
+        >chapter<span>những trang sách, những chân trời</span></a
+      >
+      <nav aria-label="Điều hướng chính">
+        <a th:href="@{/books}">Khám phá sách</a
+        ><a th:href="@{/cart}">Giỏ sách <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <footer th:fragment="footer">
+      <a class="brand" th:href="@{/books}">chapter.</a>
+      <p>Một cuốn sách hay. Một khởi đầu mới.</p>
+      <a th:href="@{/admin/books}">Dành cho cửa hàng</a>
+    </footer>
+  </body>
+</html>

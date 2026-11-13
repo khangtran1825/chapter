@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <nav th:fragment="nav" class="admin-nav" aria-label="Quản trị">
+      <a th:href="@{/admin/books}">Sách &amp; tồn kho</a
+      ><a th:href="@{/admin/categories}">Thể loại</a
+      ><a th:href="@{/admin/orders}">Đơn hàng</a>
+      <form th:action="@{/admin/logout}" method="post">
+        <button class="secondary">Đăng xuất</button>
+      </form>
+    </nav>
+  </body>
+</html>

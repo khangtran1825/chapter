@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Thể loại')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <nav th:replace="~{admin/nav :: nav}"></nav>
+      <h1>Những ngăn sách.</h1>
+      <p class="error" role="alert" th:if="${message}" th:text="${message}"></p>
+      <form class="inline panel" th:action="@{/admin/categories}" method="post">
+        <div style="flex: 1">
+          <label for="categoryName">Thêm thể loại</label
+          ><input
+            id="categoryName"
+            name="name"
+            maxlength="100"
+            th:value="${renameId == null ? name : ''}"
+            required
+          />
+        </div>
+        <button>Thêm thể loại</button>
+      </form>
+      <article class="cart-line" th:each="c:${categories}">
+        <form
+          class="inline"
+          th:action="@{/admin/categories/{id}(id=${c.id})}"
+          method="post"
+        >
+          <div>
+            <label th:for="${'cat-'+c.id}">Tên thể loại</label
+            ><input
+              style="width: 100%"
+              th:id="${'cat-'+c.id}"
+              name="name"
+              maxlength="100"
+              th:value="${renameId == c.id ? name : c.name}"
+              required
+            />
+          </div>
+          <button class="secondary">Đổi tên</button>
+        </form>
+        <form
+          th:action="@{/admin/categories/{id}/delete(id=${c.id})}"
+          method="post"
+        >
+          <button class="secondary" th:aria-label="${'Xóa thể loại '+c.name}">
+            Xóa
+          </button>
+        </form>
+      </article>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Khám phá sách')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="hero">
+        <p class="eyebrow">Một chương mới đang chờ bạn</p>
+        <h1>Đọc chậm lại.<br />Thấy thế giới rộng hơn.</h1>
+        <p class="muted">
+          Những cuốn sách được chọn để đồng hành cùng bạn, từ một buổi sáng bình
+          yên đến những hành trình xa.
+        </p>
+      </section>
+      <form class="toolbar" th:action="@{/books}" method="get">
+        <div>
+          <label for="q">Bạn muốn đọc gì hôm nay?</label
+          ><input
+            id="q"
+            name="q"
+            th:value="${q}"
+            maxlength="200"
+            placeholder="Tên sách hoặc tác giả…"
+            type="search"
+          />
+        </div>
+        <div>
+          <label for="category">Thể loại</label
+          ><select id="category" name="category">
+            <option value="">Tất cả thể loại</option>
+            <option
+              th:each="c:${categories}"
+              th:value="${c.id}"
+              th:text="${c.name}"
+              th:selected="${c.id == category}"
+            ></option>
+          </select>
+        </div>
+        <button>Tìm sách</button>
+      </form>
+      <div class="countline">
+        <span
+          th:text="${books.totalElements} + ' cuốn sách dành cho bạn'"
+        ></span
+        ><a th:if="${!q.isEmpty() or category != null}" th:href="@{/books}"
+          >Xóa bộ lọc</a
+        >
+      </div>
+      <section class="grid" aria-label="Danh sách sách">
+        <article class="book" th:each="b:${books.content}">
+          <a
+            class="cover"
+            th:href="@{/books/{id}(id=${b.id})}"
+            th:aria-label="${'Xem ' + b.title}"
+            ><img th:src="${b.cover}" alt="" loading="lazy"
+          /></a>
+          <h2>
+            <a th:href="@{/books/{id}(id=${b.id})}" th:text="${b.title}"></a>
+          </h2>
+          <p class="muted" th:text="${b.author}"></p>
+          <div class="row">
+            <span class="price" th:text="${@present.money(b.priceVnd)}"></span
+            ><span class="badge" th:if="${b.stock == 0}">Tạm hết sách</span>
+          </div>
+        </article>
+      </section>
+      <section th:if="${books.empty}" class="empty">
+        <h2>Chưa tìm thấy cuốn sách ấy.</h2>
+        <p>Thử một từ khóa khác hoặc khám phá tất cả sách nhé.</p>
+        <a class="button secondary" th:href="@{/books}">Xem tất cả sách</a>
+      </section>
+      <nav
+        class="pagination"
+        aria-label="Phân trang"
+        th:if="${books.totalPages > 1}"
+      >
+        <a
+          th:if="${books.hasPrevious()}"
+          th:href="@{/books(q=${q},category=${category},page=${books.number - 1})}"
+          >← Trang trước</a
+        ><span th:text="${books.number+1} + ' / ' + ${books.totalPages}"></span
+        ><a
+          th:if="${books.hasNext()}"
+          th:href="@{/books(q=${q},category=${category},page=${books.number + 1})}"
+          >Trang sau →</a
+        >
+      </nav>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Chi tiết đơn')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <nav th:replace="~{admin/nav :: nav}"></nav>
+      <p class="eyebrow" th:text="${order.reference}"></p>
+      <h1>Một đơn sách mới.</h1>
+      <div class="split">
+        <section class="panel">
+          <h2>Sách trong đơn</h2>
+          <div class="row" th:each="line:${order.lines}">
+            <span th:text="${line.titleSnapshot}+' × '+${line.quantity}"></span
+            ><strong th:text="${@present.money(line.lineTotalVnd)}"></strong>
+          </div>
+          <hr />
+          <div class="row">
+            <span>Tổng COD (giao hàng 0 ₫)</span
+            ><strong th:text="${@present.money(order.totalVnd)}"></strong>
+          </div>
+          <h2>Giao đến</h2>
+          <p th:text="${order.recipientName}+' · '+${order.phone}"></p>
+          <p
+            th:text="${order.street + ', ' + order.ward + ', ' + order.district + ', ' + order.province}"
+          ></p>
+        </section>
+        <aside class="panel">
+          <h2 th:text="${order.status.label}"></h2>
+          <p class="muted" th:text="${@present.date(order.createdAt)}"></p>
+          <form
+            th:each="s:${statuses}"
+            th:if="${s != order.status and order.status.allows(s)}"
+            th:action="@{/admin/orders/{id}/status(id=${order.id})}"
+            method="post"
+            style="margin: 12px 0"
+          >
+            <input
+              type="hidden"
+              name="expected"
+              th:value="${order.status}"
+            /><input type="hidden" name="target" th:value="${s}" /><button
+              th:text="${s.label}"
+              th:class="${s.name() == 'CANCELLED' ? 'secondary' : ''}"
+            ></button>
+          </form>
+          <a th:href="@{/admin/orders}">← Tất cả đơn hàng</a>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

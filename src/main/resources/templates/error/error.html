@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Có điều cần kiểm tra')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <p class="eyebrow" th:text="${status}">Thông báo</p>
+      <h1>Cùng thử lại nhé.</h1>
+      <div
+        role="alert"
+        class="notice"
+        th:text="${message ?: 'Không thể hoàn tất yêu cầu lúc này.'}"
+      ></div>
+      <a class="button" th:href="@{/books}">Về cửa hàng</a>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

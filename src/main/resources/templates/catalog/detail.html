@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head(${book.title})}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <p><a th:href="@{/books}">← Trở về kệ sách</a></p>
+      <section class="detail">
+        <div class="cover"><img th:src="${book.cover}" alt="" /></div>
+        <div>
+          <p class="eyebrow" th:text="${book.category.name}"></p>
+          <h1 th:text="${book.title}"></h1>
+          <p class="muted" th:text="${book.author}"></p>
+          <p
+            class="price"
+            style="font-size: 26px"
+            th:text="${@present.money(book.priceVnd)}"
+          ></p>
+          <p class="description" th:text="${book.description}"></p>
+          <p
+            class="badge"
+            th:text="${book.stock > 0 ? 'Còn ' + book.stock + ' cuốn' : 'Tạm hết sách'}"
+          ></p>
+          <form class="purchase" th:action="@{/cart/items}" method="post">
+            <input type="hidden" name="bookId" th:value="${book.id}" />
+            <div>
+              <label for="quantity">Số lượng</label
+              ><input
+                id="quantity"
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                th:max="${book.stock}"
+                required
+              />
+            </div>
+            <button th:disabled="${book.stock == 0}">Thêm vào giỏ sách</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

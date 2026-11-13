@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Thông tin sách')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <nav th:replace="~{admin/nav :: nav}"></nav>
+      <h1
+        th:text="${bookId == null ? 'Thêm một câu chuyện mới.' : 'Chăm chút cuốn sách.'}"
+      ></h1>
+      <form
+        class="panel"
+        th:action="${bookId == null ? '/admin/books' : '/admin/books/' + bookId}"
+        method="post"
+        th:object="${bookForm}"
+      >
+        <div
+          th:if="${message}"
+          role="alert"
+          class="error"
+          th:text="${message}"
+        ></div>
+        <div th:if="${#fields.hasAnyErrors()}" role="alert" class="error">
+          Vui lòng kiểm tra các trường bắt buộc, độ dài, giá và tồn kho.
+        </div>
+        <input type="hidden" th:field="*{version}" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="title">Tên sách</label
+            ><input th:field="*{title}" maxlength="255" required />
+          </div>
+          <div class="field">
+            <label for="author">Tác giả</label
+            ><input th:field="*{author}" maxlength="255" required />
+          </div>
+          <div class="field wide">
+            <label for="description">Giới thiệu sách</label
+            ><textarea
+              th:field="*{description}"
+              maxlength="10000"
+              required
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="categoryId">Thể loại</label
+            ><select th:field="*{categoryId}" required>
+              <option value="">Chọn thể loại</option>
+              <option
+                th:each="c:${categories}"
+                th:value="${c.id}"
+                th:text="${c.name}"
+              ></option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="coverPath">Ảnh bìa trong thư mục images</label
+            ><input
+              th:field="*{coverPath}"
+              placeholder="/images/book-placeholder.svg"
+              maxlength="255"
+            /><small>Để trống để dùng ảnh bìa mặc định.</small>
+          </div>
+          <div class="field">
+            <label for="priceVnd">Giá (₫)</label
+            ><input th:field="*{priceVnd}" type="number" min="0" required />
+          </div>
+          <div class="field">
+            <label for="stock">Tồn kho</label
+            ><input
+              th:field="*{stock}"
+              type="number"
+              min="0"
+              max="2147483647"
+              required
+            />
+          </div>
+        </div>
+        <button>Lưu sách</button> <a th:href="@{/admin/books}">Quay lại</a>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+.git
+.agents
+.specify
+target
+.env
+.env.*
+*.log
+.idea
+.vscode
+test-results
+playwright-report

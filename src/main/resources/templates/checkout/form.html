@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đặt sách')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <p class="eyebrow">Một bước nữa đến chương mới</p>
+      <h1>Sách sắp đến tay bạn.</h1>
+      <p><a th:href="@{/cart}">← Xem lại giỏ sách</a></p>
+      <div
+        class="error"
+        role="alert"
+        th:if="${message}"
+        th:text="${message}"
+      ></div>
+      <div class="notice" th:if="${message}">
+        <a th:href="@{/checkout}">Tải lại giá và tồn kho để xác nhận lại</a>
+      </div>
+      <form
+        th:action="@{/checkout}"
+        th:object="${delivery}"
+        method="post"
+        class="split"
+      >
+        <input type="hidden" name="purchaseKey" th:value="${quote.key}" />
+        <section class="panel">
+          <h2>Thông tin giao hàng</h2>
+          <div th:if="${#fields.hasAnyErrors()}" class="error" role="alert">
+            Vui lòng kiểm tra tên, số điện thoại 10 chữ số và địa chỉ giao hàng.
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="recipientName">Họ và tên</label
+              ><input
+                th:field="*{recipientName}"
+                maxlength="100"
+                autocomplete="name"
+                required
+              /><small
+                class="error-text"
+                th:if="${#fields.hasErrors('recipientName')}"
+                >Vui lòng nhập tên tối đa 100 ký tự.</small
+              >
+            </div>
+            <div class="field">
+              <label for="phone">Số điện thoại</label
+              ><input
+                th:field="*{phone}"
+                type="tel"
+                pattern="0[0-9]{9}"
+                maxlength="10"
+                autocomplete="tel"
+                required
+              /><small class="error-text" th:if="${#fields.hasErrors('phone')}"
+                >Số điện thoại gồm 10 chữ số, bắt đầu bằng 0.</small
+              >
+            </div>
+            <div class="field wide">
+              <label for="street">Số nhà, tên đường</label
+              ><input
+                th:field="*{street}"
+                maxlength="255"
+                autocomplete="street-address"
+                required
+              /><small class="error-text" th:if="${#fields.hasErrors('street')}"
+                >Vui lòng nhập địa chỉ.</small
+              >
+            </div>
+            <div class="field">
+              <label for="ward">Phường / xã</label
+              ><input th:field="*{ward}" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="district">Quận / huyện</label
+              ><input th:field="*{district}" maxlength="100" required />
+            </div>
+            <div class="field wide">
+              <label for="province">Tỉnh / thành phố</label
+              ><input
+                th:field="*{province}"
+                maxlength="100"
+                autocomplete="address-level1"
+                required
+              />
+            </div>
+          </div>
+        </section>
+        <aside class="panel summary">
+          <h2>Đơn sách của bạn</h2>
+          <div th:each="line:${quote.lines.values()}" class="row">
+            <span th:text="${line.title} + ' × ' + ${line.quantity}"></span
+            ><strong
+              th:text="${@present.money(line.price * line.quantity)}"
+            ></strong>
+          </div>
+          <hr />
+          <div class="row"><span>Phí giao hàng</span><strong>0 ₫</strong></div>
+          <div class="row">
+            <span>Tổng cộng</span
+            ><strong th:text="${@present.money(quoteTotal)}"></strong>
+          </div>
+          <p class="notice">Thanh toán khi nhận hàng (COD)</p>
+          <button type="submit" th:disabled="${!cartView.canCheckout}">
+            Xác nhận đặt sách
+          </button>
+          <p class="muted">
+            <small>Kiểm tra lại thông tin trước khi xác nhận.</small>
+          </p>
+        </aside>
+      </form>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

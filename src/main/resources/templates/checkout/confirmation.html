@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đặt hàng thành công')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <section class="receipt">
+        <div class="mark" aria-hidden="true">✓</div>
+        <p class="eyebrow">Cảm ơn bạn đã chọn Chapter</p>
+        <h1>Một chương mới đã bắt đầu.</h1>
+        <p>
+          Đơn sách của bạn đã được ghi nhận. Cửa hàng sẽ xác nhận trước khi
+          giao.
+        </p>
+        <p>Mã đơn: <strong th:text="${order.reference}"></strong></p>
+        <p class="badge" th:text="${order.status.label}"></p>
+      </section>
+      <div class="split">
+        <section class="panel">
+          <h2>Những cuốn sách đang chờ bạn</h2>
+          <div th:each="line:${order.lines}" class="row">
+            <span
+              th:text="${line.titleSnapshot} + ' × ' + ${line.quantity}"
+            ></span
+            ><strong th:text="${@present.money(line.lineTotalVnd)}"></strong>
+          </div>
+          <hr />
+          <div class="row"><span>Giao hàng</span><span>0 ₫</span></div>
+          <div class="row">
+            <strong>Tổng thanh toán COD</strong
+            ><strong th:text="${@present.money(order.totalVnd)}"></strong>
+          </div>
+        </section>
+        <aside class="panel">
+          <h2>Nơi sách sẽ đến</h2>
+          <p th:text="${order.recipientName}"></p>
+          <p th:text="${order.phone}"></p>
+          <p
+            th:text="${order.street + ', ' + order.ward + ', ' + order.district + ', ' + order.province}"
+          ></p>
+          <p class="muted">
+            Trang xác nhận riêng tư trong phiên trình duyệt này. Hãy lưu mã đơn
+            để liên hệ cửa hàng.
+          </p>
+        </aside>
+      </div>
+      <p><a class="button" th:href="@{/books}">Tiếp tục khám phá</a></p>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

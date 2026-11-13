@@ -1,0 +1,1 @@
+{"books":1000,"sessions":20,"p95Ms":388.0,"samplesMs":[340.0, 288.0, 340.0, 340.0, 340.0, 324.0, 388.0, 324.0, 368.0, 364.0, 252.0, 352.0, 352.0, 356.0, 388.0, 356.0, 376.0, 380.0, 380.0, 380.0],"elapsedSeconds":4.5541322,"browser":"158.0.8127.18","os":"Windows 11","processors":16,"warmup":"one catalog load per session","network":"loopback","postgres":"18.7"}

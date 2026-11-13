@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Đăng nhập quản trị')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <div class="login panel">
+        <p class="eyebrow">Dành cho cửa hàng</p>
+        <h1 style="font-size: 38px">Chào người giữ sách.</h1>
+        <p class="muted">Đăng nhập để chăm chút cho cửa hàng Chapter.</p>
+        <p th:if="${param.error}" role="alert" class="error">
+          Thông tin đăng nhập không đúng hoặc tài khoản tạm khóa.
+        </p>
+        <p th:if="${param.logout}" class="notice">Bạn đã đăng xuất.</p>
+        <form th:action="@{/admin/login}" method="post">
+          <div class="field">
+            <label for="username">Tên đăng nhập</label
+            ><input
+              id="username"
+              name="username"
+              autocomplete="username"
+              required
+              maxlength="100"
+            />
+          </div>
+          <div class="field">
+            <label for="password">Mật khẩu</label
+            ><input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <button>Đăng nhập</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

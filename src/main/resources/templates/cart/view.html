@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Giỏ sách')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <p class="eyebrow">Những lựa chọn của bạn</p>
+      <h1>Giỏ sách.</h1>
+      <div
+        th:if="${message}"
+        class="error"
+        role="alert"
+        th:text="${message}"
+      ></div>
+      <div class="empty" th:if="${cartView.lines.isEmpty()}">
+        <h2>Giỏ sách đang trống.</h2>
+        <p>Câu chuyện tiếp theo của bạn đang ở đâu đó trên kệ sách.</p>
+        <a class="button" th:href="@{/books}">Khám phá sách</a>
+      </div>
+      <div class="split" th:unless="${cartView.lines.isEmpty()}">
+        <section>
+          <article class="cart-line" th:each="line:${cartView.lines}">
+            <div>
+              <h2>
+                <a
+                  th:href="@{/books/{id}(id=${line.id})}"
+                  th:text="${line.title}"
+                ></a>
+              </h2>
+              <p class="muted" th:text="${@present.money(line.price)}"></p>
+              <p
+                class="error-text"
+                th:if="${!line.available}"
+                th:text="${line.warning}"
+              ></p>
+              <div class="inline">
+                <form
+                  th:action="@{/cart/items/{id}/quantity(id=${line.id})}"
+                  method="post"
+                  class="inline"
+                >
+                  <div>
+                    <label th:for="${'qty-' + line.id}">Số lượng</label
+                    ><input
+                      th:id="${'qty-' + line.id}"
+                      name="quantity"
+                      type="number"
+                      min="1"
+                      th:max="${line.stock}"
+                      th:value="${line.quantity}"
+                      required
+                    />
+                  </div>
+                  <button class="secondary">Cập nhật</button>
+                </form>
+                <form
+                  th:action="@{/cart/items/{id}/remove(id=${line.id})}"
+                  method="post"
+                >
+                  <button
+                    class="secondary"
+                    th:aria-label="${'Bỏ ' + line.title}"
+                  >
+                    Bỏ sách
+                  </button>
+                </form>
+              </div>
+            </div>
+            <strong th:text="${@present.money(line.subtotal)}"></strong>
+          </article>
+        </section>
+        <aside class="panel summary">
+          <h2>Một chồng sách mới</h2>
+          <div class="row">
+            <span>Tạm tính</span
+            ><strong th:text="${@present.money(cartView.total)}"></strong>
+          </div>
+          <p class="muted">
+            Thanh toán khi nhận hàng. Miễn phí giao hàng cho bản trải nghiệm.
+          </p>
+          <p>
+            <a
+              class="button"
+              th:if="${cartView.canCheckout}"
+              th:href="@{/checkout}"
+              >Tiến hành đặt sách</a
+            >
+          </p>
+          <a class="button secondary" th:href="@{/books}">Tiếp tục chọn sách</a>
+        </aside>
+      </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

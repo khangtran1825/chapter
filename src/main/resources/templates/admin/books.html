@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Quản lý sách')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <nav th:replace="~{admin/nav :: nav}"></nav>
+      <div class="row">
+        <div>
+          <p class="eyebrow">Chăm chút từng cuốn sách</p>
+          <h1>Kệ sách của cửa hàng.</h1>
+        </div>
+        <a class="button" th:href="@{/admin/books/new}">Thêm sách mới</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sách</th>
+              <th>Giá</th>
+              <th>Tồn kho</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="b:${books.content}">
+              <td>
+                <a
+                  th:href="@{/admin/books/{id}/edit(id=${b.id})}"
+                  th:text="${b.title}"
+                ></a
+                ><br /><small th:text="${b.author}"></small>
+              </td>
+              <td th:text="${@present.money(b.priceVnd)}"></td>
+              <td>
+                <form
+                  class="inline"
+                  th:action="@{/admin/books/{id}/inventory(id=${b.id})}"
+                  method="post"
+                >
+                  <input
+                    type="hidden"
+                    name="version"
+                    th:value="${b.version}"
+                  /><input
+                    th:aria-label="${'Tồn kho ' + b.title}"
+                    name="stock"
+                    type="number"
+                    min="0"
+                    th:value="${b.stock}"
+                    required
+                  /><button class="secondary">Lưu</button>
+                </form>
+              </td>
+              <td th:text="${b.active ? 'Đang bán' : 'Đã ẩn'}"></td>
+              <td>
+                <form
+                  th:action="${b.active ? '/admin/books/' + b.id + '/archive' : '/admin/books/' + b.id + '/activate'}"
+                  method="post"
+                >
+                  <input
+                    type="hidden"
+                    name="version"
+                    th:value="${b.version}"
+                  /><button
+                    class="secondary"
+                    th:text="${b.active ? 'Ẩn sách' : 'Bán lại'}"
+                  ></button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <nav class="pagination" aria-label="Phân trang">
+        <a
+          th:if="${books.hasPrevious()}"
+          th:href="@{/admin/books(page=${books.number - 1})}"
+          >← Trang trước</a
+        ><span th:text="${books.number+1}"></span
+        ><a
+          th:if="${books.hasNext()}"
+          th:href="@{/admin/books(page=${books.number+1})}"
+          >Trang sau →</a
+        >
+      </nav>
+    </main>
+  </body>
+</html>
