@@ -11,3 +11,9 @@ target/
 Thumbs.db
 playwright-report/
 test-results/
+/specs/
+/.specify/
+/.agents/
+
+# Local-only sample data for feature development
+/.local/

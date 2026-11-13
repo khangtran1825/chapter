@@ -42,6 +42,14 @@ hay ghi đè dữ liệu đã có. Tài khoản quản trị chỉ được boot
 Trạng thái đơn: PENDING → CONFIRMED → SHIPPING → COMPLETED. Có thể hủy trước SHIPPING.
 Giá/tên sách trong đơn được lưu cố định, không đổi khi sửa sản phẩm.
 
+## Sắp ra mắt: tài khoản khách hàng
+
+- Đăng ký bằng họ tên, email và mật khẩu.
+- Đăng nhập, xem thông tin tài khoản và đăng xuất.
+- Giữ giỏ sách khi đăng nhập trong cùng phiên trình duyệt.
+
+Trạng thái: đã có đặc tả, chưa triển khai. Đây là mục mẫu để theo dõi tính năng tiếp theo.
+
 ## Kiểm thử
 
 ```powershell
@@ -57,9 +65,9 @@ riêng, không dùng dữ liệu Compose. Docker không chạy thì integration 
 không bỏ qua. Profile browser chạy thêm Chromium headless; profile performance đo riêng
 1.000 sách và 20 browser context độc lập. Không có frontend build hay Node runtime cho app.
 
-Bằng chứng: `specs/001-bookstore-mvp/validation.md`; báo cáo chi tiết nằm trong `target/`,
+Báo cáo kiểm thử được tạo trong `target/` sau khi chạy các lệnh trên;
 ảnh browser trong `target/screenshots/`, số đo tải trong `target/performance/catalog.json`.
-Việc thử với 5 người thật được ghi riêng trong `usability-results.md` và không thay bằng test máy.
+Tài liệu Spec Kit và hướng dẫn AI được giữ cục bộ, không đưa vào repository.
 
 ## Lưu ý khi vận hành
 
