@@ -97,7 +97,9 @@ public class SecurityConfig {
     return http.authenticationManager(manager(users, encoder))
         .authorizeHttpRequests(
             a ->
-                a.requestMatchers("/account", "/account/**")
+                a.requestMatchers("/account", "/account/**", "/favorites", "/favorites/**")
+                    .hasRole("CUSTOMER")
+                    .requestMatchers(org.springframework.http.HttpMethod.POST, "/books/*/favorite")
                     .hasRole("CUSTOMER")
                     .anyRequest()
                     .permitAll())
@@ -145,7 +147,11 @@ public class SecurityConfig {
                     .authenticationEntryPoint(
                         (r, s, x) ->
                             s.sendRedirect(
-                                "/login?next=account"
+                                "/login?next="
+                                    + (r.getRequestURI().startsWith("/favorites")
+                                            || r.getRequestURI().matches("/books/[^/]+/favorite")
+                                        ? "favorites"
+                                        : "account")
                                     + (r.getRequestedSessionId() != null
                                             && !r.isRequestedSessionIdValid()
                                         ? "&expired"

@@ -24,6 +24,6 @@ public final class CustomerFixtures {
   }
 
   public static void reset(JdbcTemplate jdbc) {
-    jdbc.execute("truncate customer_account");
+    jdbc.execute("truncate customer_account cascade");
   }
 }

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="save(id,title)" class="favorite-controls">
+      <th:block th:if="${customerViewer != null and customerViewer.customer}">
+        <a th:if="${favoriteIds.contains(id)}" href="/favorites"
+          >♥ Đã yêu thích</a
+        >
+        <form
+          th:unless="${favoriteIds.contains(id)}"
+          th:action="@{/books/{id}/favorite(id=${id})}"
+          method="post"
+        >
+          <button class="secondary" th:aria-label="${'Yêu thích '+title}">
+            ♡ Yêu thích
+          </button>
+        </form>
+      </th:block>
+      <a
+        th:if="${customerViewer == null or (!customerViewer.customer and !customerViewer.admin)}"
+        href="/login?next=favorites"
+        >Đăng nhập để yêu thích</a
+      >
+    </div>
+  </body>
+</html>

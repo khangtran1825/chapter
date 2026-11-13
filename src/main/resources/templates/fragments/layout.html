@@ -42,6 +42,11 @@
           th:href="@{/admin/books}"
           >Quản trị</a
         >
+        <a
+          th:if="${customerViewer != null and customerViewer.customer}"
+          href="/favorites"
+          >Yêu thích</a
+        >
       </nav>
     </header>
     <footer th:fragment="footer">

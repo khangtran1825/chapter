@@ -62,6 +62,9 @@
             <span class="price" th:text="${@present.money(b.priceVnd)}"></span
             ><span class="badge" th:if="${b.stock == 0}">Tạm hết sách</span>
           </div>
+          <div
+            th:replace="~{favorites/controls :: save(${b.id},${b.title})}"
+          ></div>
         </article>
       </section>
       <section th:if="${books.empty}" class="empty">

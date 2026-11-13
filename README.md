@@ -36,6 +36,7 @@ hay ghi đè dữ liệu đã có. Tài khoản quản trị chỉ được boot
 
 - Tìm tên sách/tác giả, lọc thể loại, phân trang; giá VND, trạng thái còn/hết hàng.
 - Giỏ hàng theo phiên, kiểm tra số lượng và tồn kho, tổng tiền bằng số nguyên có chặn tràn.
+- Sách yêu thích theo tài khoản: lưu từ kệ/chi tiết, xem và bỏ tại `/favorites`, phân trang 12 sách.
 - Đặt hàng khách vãng lai, COD, phí giao hàng 0 ₫ trong MVP; xác nhận riêng tư theo phiên.
 - Transaction và khóa PostgreSQL chống bán quá tồn, tạo đơn trùng và hoàn kho nhiều lần.
 - Quản trị có đăng nhập, giới hạn thử sai, CSRF, sửa/ẩn sách, quản lý thể loại, tồn kho và đơn.
@@ -59,6 +60,11 @@ quyền xem biên nhận riêng. Đăng xuất có bước xác nhận và xóa 
 các thiết bị khác vẫn hoạt động. Đăng nhập giữ giỏ và draft đã lưu trong cùng trình duyệt.
 Thông tin đang gõ chưa gửi ở trang thanh toán chưa được lưu tự động. Bạn vẫn mua sách không cần
 tài khoản. Chưa có xác minh email, quên mật khẩu, sửa hồ sơ, lịch sử đơn hay đồng bộ giỏ.
+
+Danh sách yêu thích được giữ qua đăng xuất và dùng chung trên các thiết bị của cùng tài khoản
+(tải lại trang để thấy thay đổi). Danh sách riêng giữa các khách; quản trị không dùng quyền khách.
+Sách hết hàng vẫn lưu được. Sách bị ẩn tạm không xuất hiện, hiện lại khi cửa hàng bày bán lại.
+Yêu thích không thêm vào giỏ, đặt đơn hoặc giữ tồn kho. Chưa có chia sẻ danh sách hay nhắc giá.
 
 ## Kiểm thử
 

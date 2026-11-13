@@ -16,6 +16,7 @@ public class PrivatePageFilter extends OncePerRequestFilter {
     if (p.equals("/register")
         || p.equals("/login")
         || p.startsWith("/account")
+        || p.startsWith("/favorites")
         || p.equals("/logout")
         || p.startsWith("/admin")
         || p.startsWith("/orders")

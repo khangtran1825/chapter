@@ -37,6 +37,16 @@
             </div>
             <button th:disabled="${book.stock == 0}">Thêm vào giỏ sách</button>
           </form>
+          <p
+            th:if="${param.favoriteSaved != null and favoriteIds.contains(book.id)}"
+            class="notice success"
+            role="status"
+          >
+            Đã lưu sách vào danh sách yêu thích.
+          </p>
+          <div
+            th:replace="~{favorites/controls :: save(${book.id},${book.title})}"
+          ></div>
         </div>
       </section>
     </main>

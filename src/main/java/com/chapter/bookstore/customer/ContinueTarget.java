@@ -6,7 +6,8 @@ public enum ContinueTarget {
   BOOKS("books", "/books"),
   CART("cart", "/cart"),
   CHECKOUT("checkout", "/checkout"),
-  ACCOUNT("account", "/account");
+  ACCOUNT("account", "/account"),
+  FAVORITES("favorites", "/favorites");
   public final String token, path;
 
   ContinueTarget(String token, String path) {

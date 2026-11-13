@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{fragments/layout :: head('Sách yêu thích')}"></head>
+  <body>
+    <header th:replace="~{fragments/layout :: nav}"></header>
+    <main id="main">
+      <p class="eyebrow">Để dành cho chương sau</p>
+      <h1>Sách yêu thích.</h1>
+      <p>Những cuốn sách bạn muốn tìm lại, trên mọi thiết bị đăng nhập.</p>
+      <div class="empty" th:if="${books.empty}">
+        <h2>Chưa có sách yêu thích ở trang này.</h2>
+        <p>
+          Lưu những cuốn sách bạn muốn đọc từ kệ sách. Sách tạm ẩn sẽ hiện lại
+          khi được bày bán.
+        </p>
+        <a class="button" href="/books">Khám phá sách</a>
+        <p th:if="${books.number > 0}"><a href="/favorites">Về trang đầu</a></p>
+      </div>
+      <section class="grid" aria-label="Sách đã lưu">
+        <article class="book" th:each="b:${books.content}">
+          <a
+            class="cover"
+            th:href="@{/books/{id}(id=${b.id})}"
+            th:aria-label="${'Xem '+b.title}"
+            ><img th:src="${b.cover}" alt="" loading="lazy"
+          /></a>
+          <h2>
+            <a th:href="@{/books/{id}(id=${b.id})}" th:text="${b.title}"></a>
+          </h2>
+          <p class="muted" th:text="${b.author}"></p>
+          <div class="row">
+            <span class="price" th:text="${@present.money(b.priceVnd)}"></span
+            ><span class="badge" th:if="${b.stock == 0}">Tạm hết sách</span>
+          </div>
+          <form th:action="@{/favorites/{id}/remove(id=${b.id})}" method="post">
+            <button
+              class="secondary"
+              th:aria-label="${'Bỏ yêu thích '+b.title}"
+            >
+              Bỏ yêu thích
+            </button>
+          </form>
+        </article>
+      </section>
+      <nav
+        class="pagination"
+        aria-label="Phân trang sách yêu thích"
+        th:if="${books.totalPages > 1}"
+      >
+        <a
+          th:if="${books.hasPrevious()}"
+          th:href="@{/favorites(page=${books.number - 1})}"
+          >← Trang trước</a
+        ><span th:text="${books.number+1}+' / '+${books.totalPages}"></span
+        ><a
+          th:if="${books.hasNext()}"
+          th:href="@{/favorites(page=${books.number + 1})}"
+          >Trang sau →</a
+        >
+      </nav>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </body>
+</html>

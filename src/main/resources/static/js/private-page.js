@@ -1,7 +1,7 @@
 window.addEventListener("pageshow", (event) => {
   if (
     event.persisted &&
-    /^\/(account|logout|cart|checkout|orders|admin)(\/|$)/.test(
+    /^\/(account|logout|cart|checkout|orders|admin|favorites)(\/|$)/.test(
       location.pathname,
     )
   ) {
